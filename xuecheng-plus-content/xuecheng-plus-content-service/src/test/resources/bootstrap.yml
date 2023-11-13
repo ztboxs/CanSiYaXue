@@ -1,0 +1,12 @@
+#微服务配置
+spring:
+  application:
+    name: content-api
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.137.231:3306/xcplus_content?serverTimezone=UTC&userUnicode=true&useSSL=false&
+    username: xcplus_content
+    password: 1234
+# 日志文件配置路径
+logging:
+  config: classpath:log4j2-dev.xml
