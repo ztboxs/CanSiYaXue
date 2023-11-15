@@ -3,22 +3,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>xuecheng-plus-content</artifactId>
+        <artifactId>xuecheng-plus-system</artifactId>
         <groupId>com.xuecheng</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>xuecheng-plus-content-service</artifactId>
+    <artifactId>xuecheng-plus-system-service</artifactId>
+    <name>xuecheng-plus-system-service</name>
+    <description>xuecheng-plus-system-service</description>
+
     <dependencies>
         <dependency>
             <groupId>com.xuecheng</groupId>
-            <artifactId>xuecheng-plus-content-model</artifactId>
+            <artifactId>xuecheng-plus-system-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.xuecheng</groupId>
-            <artifactId>xuecheng-plus-content-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
         <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
@@ -30,10 +29,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
         </dependency>
         <!-- Spring Boot 集成 Junit -->
         <dependency>
@@ -58,6 +53,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
+
+
     </dependencies>
 
 </project>
