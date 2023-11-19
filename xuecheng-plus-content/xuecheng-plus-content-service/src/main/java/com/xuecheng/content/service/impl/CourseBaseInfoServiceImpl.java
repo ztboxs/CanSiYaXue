@@ -181,7 +181,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     @Override
     public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto editCourseDto) {
         //查询课程是是否存在
-        Long courseId = editCourseDto.getCourseId();
+        Long courseId = editCourseDto.getId();
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if (courseBase == null) {
             XueChengPlusException.cast("课程不存在");
