@@ -1,5 +1,6 @@
 package com.xuecheng.content.service;
 
+import com.xuecheng.content.model.dto.SaveTeachplanDto;
 import com.xuecheng.content.model.dto.TeachplanDto;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public interface TeachplanService {
      * @param courseId 课程Id
      * @return
      */
-    public List<TeachplanDto> findTeachplanTree(Long courseId);
+     List<TeachplanDto> findTeachplanTree(Long courseId);
+
+    /**
+     * 保存课程计划
+     * @param saveTeachplanDto 课程计划信息
+     */
+     void saveTeachplan(SaveTeachplanDto saveTeachplanDto);
 
 }
