@@ -38,7 +38,7 @@ public class TeachplanServiceImpl implements TeachplanService {
         //课程计划id
         Long id = teachplanDto.getId();
         //修改课程计划
-        if (id !=null) {
+        if (id != null) {
             Teachplan teachplan = teachplanMapper.selectById(id);
             BeanUtils.copyProperties(teachplanDto, teachplan);
             teachplanMapper.updateById(teachplan);
@@ -48,13 +48,26 @@ public class TeachplanServiceImpl implements TeachplanService {
             Teachplan teachplanNew = new Teachplan();
             //设置排序号
             teachplanNew.setOrderby(count + 1);
-            BeanUtils.copyProperties(teachplanDto,teachplanNew);
+            BeanUtils.copyProperties(teachplanDto, teachplanNew);
             teachplanMapper.insert(teachplanNew);
+        }
+    }
+
+    @Override
+    public Boolean deleteTeachplan(Long id) {
+        Teachplan teachplan = teachplanMapper.selectById(id);
+        teachplan.setStatus(0);
+        int i = teachplanMapper.updateById(teachplan);
+        if (i > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
     /**
      * 获取最新的排序号
+     *
      * @param courseId 课程id
      * @param parentid 父课程计划id
      * @return int 最新排序号
