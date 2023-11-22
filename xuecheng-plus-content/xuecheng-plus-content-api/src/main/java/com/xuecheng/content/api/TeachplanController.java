@@ -32,15 +32,17 @@ public class TeachplanController {
         return teachplanService.findTeachplanTree(courseId);
     }
 
-    //    @ApiOperation(value = "课程计划创建或修改")
-//    @PostMapping("/teachplan")
-//    public void saveTeachplan (@RequestBody SaveTeachplanDto teachplanDto) {
-//        teachplanService.saveTeachplan(teachplanDto);
-//    }
     @ApiOperation("课程计划创建或修改")
     @PostMapping("/teachplan")
     public void saveTeachplan(@RequestBody SaveTeachplanDto teachplan) {
         teachplanService.saveTeachplan(teachplan);
     }
+
+    @ApiOperation("逻辑删除课程计划")
+    @PutMapping("/teachplan/{id}}")
+    public Boolean deleteTeachplan(@PathVariable Long id) {
+        return teachplanService.deleteTeachplan(id);
+    }
+
 
 }
