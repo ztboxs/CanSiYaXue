@@ -136,6 +136,7 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @param objectName    对象名称
      * @return
      */
+    @Override
     public boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName) {
         try {
             UploadObjectArgs putBucket = UploadObjectArgs.builder()
@@ -413,6 +414,7 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @param objectName 对象名称
      * @return 下载后的文件
      */
+    @Override
     public File downloadFileFromMinIO(String bucket, String objectName) {
         //临时文件
         File minioFile = null;
