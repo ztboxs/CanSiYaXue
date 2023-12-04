@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -88,4 +89,24 @@ public interface MediaFileService {
      * @return
      */
     RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
+
+    /**
+     * 从minio下载文件
+     *
+     * @param bucket     桶
+     * @param objectName 对象名称
+     * @return
+     */
+    File downloadFileFromMinIO(String bucket, String objectName);
+
+    /**
+     * 将文件写入minio
+     *
+     * @param localFilePath 文件地址
+     * @param mimeType      文件后缀名
+     * @param bucket        桶
+     * @param objectName    对象名称
+     * @return
+     */
+    boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
 }
