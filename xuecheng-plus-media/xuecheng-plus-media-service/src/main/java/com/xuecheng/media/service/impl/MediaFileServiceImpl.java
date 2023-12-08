@@ -404,7 +404,7 @@ public class MediaFileServiceImpl implements MediaFileService {
      * @return
      */
     private String getFilePathByMd5(String fileMd5, String extName) {
-        return fileMd5.substring(0, 1) + "/" + fileMd5.substring(1, 2) + "/" + fileMd5 + "/" + extName;
+        return fileMd5.substring(0, 1) + "/" + fileMd5.substring(1, 2) + "/" + fileMd5 + "/" + fileMd5 + extName;
     }
 
     /**

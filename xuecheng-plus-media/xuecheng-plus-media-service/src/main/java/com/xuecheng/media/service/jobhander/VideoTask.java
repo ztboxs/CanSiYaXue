@@ -39,7 +39,7 @@ public class VideoTask {
     String ffmpegpath;
 
     @XxlJob("videoJobHandler")
-    public void videoJobHandler()  throws Exception {
+    public void videoJobHandler() throws Exception {
         //分片参数
         int shardIndex = XxlJobHelper.getShardIndex();
         int shardTotal = XxlJobHelper.getShardTotal();
@@ -65,7 +65,7 @@ public class VideoTask {
         CountDownLatch countDownLatch = new CountDownLatch(ShardingNumber);
         //将处理的任务加入线程池中
         mediaProcessList.forEach(mediaProcess -> {
-            threadPool.execute(() ->{
+            threadPool.execute(() -> {
                 //任务id
                 Long taskId = mediaProcess.getId();
                 //抢占任务
@@ -73,7 +73,7 @@ public class VideoTask {
                 if (!b) {
                     return;
                 }
-                log.debug("开始执行任务:{}",mediaProcess);
+                log.debug("开始执行任务:{}", mediaProcess);
                 //===下边是处理逻辑==
                 //桶
                 String bucket = mediaProcess.getBucket();
@@ -84,23 +84,23 @@ public class VideoTask {
                 //原始文件的名称
                 String filename = mediaProcess.getFilename();
                 //将要处理的文件下载到服务器上
-                File originalFile = mediaFileService.downloadFileFromMinIO(mediaProcess.getBucket(), mediaProcess.getFilename());
+                File originalFile = mediaFileService.downloadFileFromMinIO(mediaProcess.getBucket(), mediaProcess.getFilePath());
                 if (originalFile == null) {
-                    log.error("下载待处理文件失败，originalFile：{}",mediaProcess.getBucket().concat(mediaProcess.getFilePath()));
-                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(),"3",fileId,null,"下载待处理文件失败");//---3---为文件状态
+                    log.error("下载待处理文件失败，originalFile：{}", mediaProcess.getBucket().concat(mediaProcess.getFilePath()));
+                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(), "3", fileId, null, "下载待处理文件失败");//---3---为文件状态
                     return;
                 }
                 //处理下载的视频文件
                 File mp4File = null;
                 try {
-                    mp4File = File.createTempFile("mp4",".mp4");
+                    mp4File = File.createTempFile("mp4", ".mp4");
                 } catch (IOException e) {
                     log.error("创建mp4临时文件失败");
-                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(),"3",fileId,null,"创建mp4临时文件失败");
+                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(), "3", fileId, null, "创建mp4临时文件失败");
                     return;
                 }
                 //视频处理结果
-                String result = null;
+                String result = "";
                 try {
                     //开始处理视频
                     Mp4VideoUtil mp4VideoUtil = new Mp4VideoUtil(ffmpegpath, originalFile.getAbsolutePath(), mp4File.getName(), mp4File.getAbsolutePath());
@@ -108,11 +108,11 @@ public class VideoTask {
                     result = mp4VideoUtil.generateMp4();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    log.error("处理视频文件:{},出错:{}",mediaProcess.getFilePath(), e.getMessage());
+                    log.error("处理视频文件:{},出错:{}", mediaProcess.getFilePath(), e.getMessage());
                 }
                 if (!result.equals("success")) {
                     //记录错误信息
-                    log.error("处理视频失败，视频地址：{}，错误信息:{}",bucket + filePath, result);
+                    log.error("处理视频失败，视频地址：{}，错误信息:{}", bucket + filePath, result);
                     mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(), "3", fileId, null, result);
                     return;
                 }
@@ -121,14 +121,14 @@ public class VideoTask {
                 String objectName = getFilePath(fileId, ".mp4");
                 String url = "/" + bucket + "/" + objectName;
                 try {
-                    mediaFileService.addMediaFilesToMinIO(mp4File.getAbsolutePath(),"video/mp4",bucket,objectName);
+                    mediaFileService.addMediaFilesToMinIO(mp4File.getAbsolutePath(), "video/mp4", bucket, objectName);
                     //将url储存到数据库,并更新状态为成功，将待处理视频记录删除存入历史
-                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(),"2",fileId, url,null);//===2===状态修改为2
+                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(), "2", fileId, url, null);//===2===状态修改为2
                 } catch (Exception e) {
                     e.printStackTrace();
                     log.error("上传视频失败或者入库失败,视频地址:{}", bucket + objectName, e.getMessage());
                     //最终还是失败
-                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(),"3",fileId, null, "处理视频上传或者入库失败");
+                    mediaFileProcessService.saveProcessFinishStatus(mediaProcess.getId(), "3", fileId, null, "处理视频上传或者入库失败");
                 } finally {
                     countDownLatch.countDown();
                 }
@@ -140,7 +140,7 @@ public class VideoTask {
 
     //md5拼接路径
     private String getFilePath(String fileMd5, String fileExt) {
-        return fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/" + fileExt;
+        return fileMd5.substring(0, 1) + "/" + fileMd5.substring(1, 2) + "/" + fileMd5 + "/" + fileMd5 + fileExt;
     }
 
 }
