@@ -17,13 +17,11 @@ import com.xuecheng.media.model.po.MediaFiles;
 import com.xuecheng.media.model.po.MediaProcess;
 import com.xuecheng.media.service.MediaFileService;
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.DeleteObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,8 +30,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -155,6 +151,11 @@ public class MediaFileServiceImpl implements MediaFileService {
             XueChengPlusException.cast("上传文件到文件系统失败");
         }
         return false;
+    }
+
+    @Override
+    public MediaFiles getFileById(String mediaId) {
+        return mediaFilesMapper.selectById(mediaId);
     }
 
 
