@@ -7,12 +7,8 @@ import com.xuecheng.media.model.dto.QueryMediaParamsDto;
 import com.xuecheng.media.model.dto.UploadFileParamsDto;
 import com.xuecheng.media.model.dto.UploadFileResultDto;
 import com.xuecheng.media.model.po.MediaFiles;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @author Mr.M
@@ -109,4 +105,11 @@ public interface MediaFileService {
      * @return
      */
     boolean addMediaFilesToMinIO(String localFilePath, String mimeType, String bucket, String objectName);
+
+    /**
+     * 根据媒资Id查询文件信息
+     * @param mediaId 媒资Id
+     * @return
+     */
+    MediaFiles getFileById(String mediaId);
 }
